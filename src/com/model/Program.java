@@ -7,7 +7,7 @@ package com.model;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 
@@ -18,7 +18,7 @@ public class Program {
     private int durationYears;
     private boolean isActive;
 
-    // CONSTRUCTOR for CREATE operation
+ 
     public Program(int departmentId, String programName, int durationYears, boolean isActive) {
         this.departmentId = departmentId;
         this.programName = programName;
@@ -26,7 +26,7 @@ public class Program {
         this.isActive = isActive;
     }
 
-    // CONSTRUCTOR for READ/UPDATE operations (with ID)
+  
     public Program(int programId, int departmentId, String programName, int durationYears, boolean isActive) {
         this.programId = programId;
         this.departmentId = departmentId;
@@ -35,7 +35,7 @@ public class Program {
         this.isActive = isActive;
     }
 
-    // --- GETTERS AND SETTERS ---
+    
     public int getProgramId() {
         return programId;
     }

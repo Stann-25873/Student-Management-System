@@ -7,7 +7,7 @@ package com.model;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 public class Department {
@@ -17,7 +17,7 @@ public class Department {
     private String buildingLocation;
     private String contactPhone;
 
-    // CONSTRUCTOR for CREATE operation (ID is auto-generated)
+    
     public Department(String departmentName, String headOfDept, String buildingLocation, String contactPhone) {
         this.departmentName = departmentName;
         this.headOfDept = headOfDept;
@@ -25,7 +25,7 @@ public class Department {
         this.contactPhone = contactPhone;
     }
 
-    // CONSTRUCTOR for READ/UPDATE/DELETE operations (with ID)
+ 
     public Department(int departmentId, String departmentName, String headOfDept, String buildingLocation, String contactPhone) {
         this.departmentId = departmentId;
         this.departmentName = departmentName;
@@ -34,7 +34,7 @@ public class Department {
         this.contactPhone = contactPhone;
     }
 
-    // --- GETTERS AND SETTERS ---
+  
     public int getDepartmentId() {
         return departmentId;
     }

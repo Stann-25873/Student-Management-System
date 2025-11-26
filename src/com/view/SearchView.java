@@ -7,13 +7,13 @@ package com.view;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.dao.StudentDAO;
 import com.controller.StudentController;
 import com.model.Student;
-import com.view.StudentView; // Pour la navigation de retour
+import com.view.StudentView; 
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,15 +22,13 @@ import javax.swing.table.DefaultTableModel;
 
 public class SearchView extends JFrame {
     
-    // Constantes de couleur pour le thème Violet-Blanc
-    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
+   
+    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); 
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    
     private StudentController controller;
     private JTable studentTable;
     private DefaultTableModel tableModel;
-    
     private JTextField txtSearchTerm;
     private JButton btnSearch, btnClearSearch, btnBackToStudents;
 
@@ -52,11 +50,11 @@ public class SearchView extends JFrame {
 
     private void initComponents() {
         
-        // PANNEAU NORD : Recherche et Navigation
+     
         JPanel topPanel = new JPanel(new BorderLayout(10, 10));
         topPanel.setBackground(PRIMARY_COLOR);
         
-        // Sous-panneau de recherche
+        
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
         searchPanel.setBackground(PRIMARY_COLOR);
         
@@ -66,8 +64,8 @@ public class SearchView extends JFrame {
         btnSearch = new JButton("Search");
         btnClearSearch = new JButton("Clear Filter");
         
-        styleButton(btnSearch, PRIMARY_COLOR, BACKGROUND_COLOR); // Fond Violet, Texte Blanc
-        styleButton(btnClearSearch, Color.DARK_GRAY, BACKGROUND_COLOR); // Couleur différente pour le filtre
+        styleButton(btnSearch, PRIMARY_COLOR, BACKGROUND_COLOR); 
+        styleButton(btnClearSearch, Color.DARK_GRAY, BACKGROUND_COLOR); 
         
         JLabel searchLabel = new JLabel("Search by ID, First or Last Name:");
         searchLabel.setForeground(TEXT_COLOR);
@@ -77,7 +75,7 @@ public class SearchView extends JFrame {
         searchPanel.add(btnSearch);
         searchPanel.add(btnClearSearch);
         
-        // Bouton de retour (dans la partie EST du panneau NORD)
+ 
         JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         navPanel.setBackground(PRIMARY_COLOR);
         
@@ -102,27 +100,27 @@ public class SearchView extends JFrame {
     
     private void addEventListeners() {
         
-        // Déclenche la recherche
+      
         btnSearch.addActionListener(e -> performSearch());
         
-        // Efface le filtre et recharge tout
+ 
         btnClearSearch.addActionListener(e -> {
             txtSearchTerm.setText("");
             loadStudentsToTable(null); 
         });
 
-        // Listener de Navigation
+       
         btnBackToStudents.addActionListener(e -> {
-            // Suppose que StudentView est le nom de la classe de la page 1
+           
             new StudentView().setVisible(true);
             this.dispose();
         });
         
-        // Permettre la recherche en appuyant sur Entrée
+       
         txtSearchTerm.addActionListener(e -> performSearch());
     }
 
-    // --- LOGIQUE DE RECHERCHE ---
+  
     
     private void performSearch() {
         String term = txtSearchTerm.getText().trim();

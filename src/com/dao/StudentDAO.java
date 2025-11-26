@@ -7,7 +7,7 @@ package com.dao;
 
 /**
  *
- * @author USER
+ * @author 25873 
  */
 
 
@@ -20,16 +20,16 @@ import java.util.List;
 
 public class StudentDAO {
     
-    // C - Create Operation (INSERT)
+
     public boolean insertStudent(Student student) throws SQLException {
-        // SQL statement for inserting a new student record
+        
         String sql = "INSERT INTO STUDENT (program_id, first_name, last_name, contact_phone, birth_date, registration_date) VALUES (?, ?, ?, ?, ?::DATE, ?)";
         
-        // try-with-resources handles closing Connection, PreparedStatement automatically
+      
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            // Map POJO fields to SQL parameters (1-indexed)
+          
             pstmt.setInt(1, student.getProgramId());
             pstmt.setString(2, student.getFirstName());
             pstmt.setString(3, student.getLastName());
@@ -42,7 +42,7 @@ public class StudentDAO {
         }
     }
 
-    // R - Read Operation (SELECT ALL for JTable)
+  
     public List<Student> getAllStudents() throws SQLException {
         List<Student> students = new ArrayList<>();
         String sql = "SELECT student_id, program_id, first_name, last_name, contact_phone, birth_date, registration_date FROM STUDENT ORDER BY student_id";
@@ -52,14 +52,12 @@ public class StudentDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                // Retrieve and map data
+                
                 int studentId = rs.getInt("student_id");
                 int programId = rs.getInt("program_id");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String phoneNumber = rs.getString("contact_phone");
-                
-                // Handle DATE conversion and potential NULL dates
                 LocalDate birthDate = rs.getDate("birth_date") != null ? rs.getDate("birth_date").toLocalDate() : null;
                 LocalDate registrationDate = rs.getDate("registration_date") != null ? rs.getDate("registration_date").toLocalDate() : null;
                 
@@ -70,7 +68,7 @@ public class StudentDAO {
         return students;
     }
     
-    // U - Update Operation (UPDATE)
+ 
     public boolean updateStudent(Student student) throws SQLException {
         String sql = "UPDATE STUDENT SET program_id=?, first_name=?, last_name=?, contact_phone=?, birth_date=? WHERE student_id=?";
         
@@ -89,7 +87,7 @@ public class StudentDAO {
         }
     }
 
-    // D - Delete Operation (DELETE)
+ 
     public boolean deleteStudent(int studentId) throws SQLException {
         String sql = "DELETE FROM STUDENT WHERE student_id = ?";
         
@@ -104,7 +102,7 @@ public class StudentDAO {
 
    public List<Student> searchStudents(String searchTerm) throws SQLException {
     List<Student> students = new ArrayList<>();
-    // Requête SQL utilisant ILIKE pour la recherche insensible à la casse et partielle
+   
     String sql = "SELECT * FROM public.student WHERE " +
                  "CAST(student_id AS TEXT) ILIKE ? OR " + 
                  "first_name ILIKE ? OR " +
@@ -122,18 +120,17 @@ public class StudentDAO {
         try (ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 
-                // IMPORTANT: Conversion correcte des dates SQL en LocalDate (Java 8+)
+             
                 Date sqlBirthDate = rs.getDate("birth_date");
                 Date sqlRegDate = rs.getDate("registration_date");
                 
-                // Construction de l'objet Student
+               
                 Student s = new Student(
                     rs.getInt("student_id"), 
                     rs.getInt("program_id"), 
                     rs.getString("first_name"), 
                     rs.getString("last_name"), 
                     rs.getString("contact_phone"),
-                    // Utilisation de .toLocalDate() pour la conversion
                     sqlBirthDate != null ? sqlBirthDate.toLocalDate() : null, 
                     sqlRegDate != null ? sqlRegDate.toLocalDate() : null 
                 );

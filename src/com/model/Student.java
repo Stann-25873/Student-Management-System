@@ -7,7 +7,7 @@ package com.model;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 
@@ -18,11 +18,11 @@ public class Student {
     private int programId;
     private String firstName;
     private String lastName;
-    private String phoneNumber; // Maps to contact_phone in DB
+    private String phoneNumber; 
     private LocalDate birthDate;
     private LocalDate registrationDate;
     
-    // Constructor 1: For registering a new student (ID is assigned by DB)
+   
     public Student(int pId, String first, String last, String phone, LocalDate dob) {
         this.programId = pId;
         this.firstName = first;
@@ -31,8 +31,7 @@ public class Student {
         this.birthDate = dob;
         this.registrationDate = LocalDate.now();
     }
-
-    // Constructor 2: For retrieving data from the DB (ID is known)
+    
     public Student(int id, int pId, String first, String last, String phone, LocalDate dob, LocalDate regDate) {
         this.studentId = id;
         this.programId = pId;
@@ -42,9 +41,8 @@ public class Student {
         this.birthDate = dob;
         this.registrationDate = regDate;
     }
-
-    // --- Getters and Setters (Required for Controller/View interaction) ---
-
+    
+    
     public int getStudentId() { return studentId; }
     public void setStudentId(int studentId) { this.studentId = studentId; }
     

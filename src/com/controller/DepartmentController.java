@@ -7,7 +7,7 @@ package com.controller;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.dao.DepartmentDAO;
@@ -19,15 +19,14 @@ public class DepartmentController {
     private DepartmentDAO dao;
 
     public DepartmentController() {
-        this.dao = new DepartmentDAO(); // Initialisation du DAO
+        this.dao = new DepartmentDAO(); 
     }
-
-    // Validation des données communes
+    
     private void validateDepartment(Department dept) {
         if (dept.getDepartmentName() == null || dept.getDepartmentName().trim().isEmpty()) {
             throw new IllegalArgumentException("Department Name cannot be empty.");
         }
-        // Vous pouvez ajouter d'autres validations ici (ex: longueur max, format du téléphone)
+        
     }
 
     public boolean addDepartment(Department dept) throws SQLException {

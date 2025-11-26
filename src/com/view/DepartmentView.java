@@ -7,12 +7,12 @@ package com.view;
 
 /**
  *
- * @author USER
+ *@author 25873
  */
 
 import com.controller.DepartmentController;
 import com.model.Department;
-import com.view.StudentView; // Pour la navigation vers Page 1
+import com.view.StudentView; 
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,22 +22,15 @@ import javax.swing.table.DefaultTableModel;
 
 public class DepartmentView extends JFrame {
     
-    // Constantes de couleur pour le thème Violet-Blanc
     private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    
-    // Contrôleur et composants
     private DepartmentController controller;
     private JTable deptTable;
     private DefaultTableModel tableModel;
-    
-    // Champs de formulaire
     private JTextField txtDeptId, txtDeptName, txtHeadOfDept, txtBuildingLocation, txtContactPhone;
-    
-    // Boutons d'action
     private JButton btnAdd, btnUpdate, btnDelete, btnClear;
-    private JButton btnBackToStudents; // Bouton de navigation vers StudentView
+    private JButton btnBackToStudents; 
 
     public DepartmentView() {
         controller = new DepartmentController();
@@ -57,7 +50,7 @@ public class DepartmentView extends JFrame {
 
     private void initComponents() {
         
-        // PANNEAU WEST (Formulaire et Actions)
+       
         JPanel formPanel = new JPanel(new BorderLayout(5, 5));
         formPanel.setBorder(BorderFactory.createTitledBorder("Department Details"));
         formPanel.setBackground(BACKGROUND_COLOR);

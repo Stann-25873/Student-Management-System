@@ -7,7 +7,7 @@ package com.view;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.controller.StudentController;
@@ -27,19 +27,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class StudentView extends JFrame {
     
-    // Constantes de couleur pour le thème Violet-Blanc
-    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
-    private static final Color TEXT_COLOR = Color.WHITE;
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
     
-    // NOUVEAUX CHAMPS POUR LA NAVIGATION (Déclarés et Initialisés)
+    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); 
+    private static final Color TEXT_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_COLOR = Color.WHITE; 
     private JPanel navPanel;
     private JButton btnManagePrograms;
     private JButton btnManageDepartments;
     private JButton btnSearchFilter;
     private JButton btnLogOut;
-    private JButton btnManageCourses; // AJOUTÉ
-
+    private JButton btnManageCourses; 
     private StudentController controller;
     private JTable studentTable;
     private DefaultTableModel tableModel;
@@ -246,7 +243,7 @@ public class StudentView extends JFrame {
     
     private void registerStudent() {
         try {
-            // ... (logique de création)
+            
             int programId = Integer.parseInt(txtProgramId.getText().trim());
             LocalDate dob = LocalDate.parse(txtDOB.getText().trim());
             
@@ -273,8 +270,7 @@ public class StudentView extends JFrame {
         } catch (DateTimeParseException ex) {
             JOptionPane.showMessageDialog(this, "Date format error. Use YYYY-MM-DD.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-             // L'erreur "null value in column student_id violates not-null constraint" indique que 'student_id' n'est pas configuré en SERIAL/AUTO_INCREMENT dans la base de données. Il doit être corrigé dans la configuration de la table ou dans le DAO pour le récupérer si la base de données le gère.
-             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
+              JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input. Check Program ID and all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -282,7 +278,7 @@ public class StudentView extends JFrame {
     
     private void updateStudent() {
         try {
-            // ... (logique de mise à jour)
+           
             int studentId = Integer.parseInt(txtStudentId.getText().trim());
             int programId = Integer.parseInt(txtProgramId.getText().trim());
             LocalDate dob = LocalDate.parse(txtDOB.getText().trim());
@@ -315,7 +311,7 @@ public class StudentView extends JFrame {
     
     private void deleteStudent() {
         try {
-            // ... (logique de suppression)
+          
             int studentIdToDelete = Integer.parseInt(txtStudentId.getText().trim());
             
             int confirmation = JOptionPane.showConfirmDialog(this, 

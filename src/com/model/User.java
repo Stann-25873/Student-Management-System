@@ -7,23 +7,23 @@ package com.model;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 public class User {
     private int userId;
     private String username;
-    private String password; // Stocké en clair pour cet exercice
+    private String password; 
     private String email;
 
-    // Constructeur pour l'enregistrement (sans ID, car il est auto-incrémenté)
+    
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
     }
     
-    // Constructeur complet (pour la lecture/authentification si nécessaire)
+  
     public User(int userId, String username, String password, String email) {
         this.userId = userId;
         this.username = username;
@@ -31,7 +31,7 @@ public class User {
         this.email = email;
     }
     
-    // --- GETTERS AND SETTERS ---
+  
     
     public int getUserId() {
         return userId;

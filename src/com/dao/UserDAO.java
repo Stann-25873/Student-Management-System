@@ -7,7 +7,7 @@ package com.dao;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.model.User;
@@ -21,12 +21,8 @@ public class UserDAO {
         return DBUtil.getConnection();
     }
 
-    /**
-     * Tente d'authentifier un utilisateur.
-     * @return Un Optional contenant l'utilisateur s'il est trouvé et le mot de passe correspond.
-     */
     public Optional<User> authenticate(String username, String password) throws SQLException {
-        // La requête sélectionne le hachage (le mot de passe en clair pour cet exercice)
+        
         String sql = "SELECT user_id, username, password_hash, email FROM public.app_user WHERE username = ? AND password_hash = ?";
         
         try (Connection conn = getConnection();
@@ -47,13 +43,9 @@ public class UserDAO {
                 }
             }
         }
-        return Optional.empty(); // Retourne vide si non trouvé
+        return Optional.empty();
     }
 
-    /**
-     * Enregistre un nouvel utilisateur.
-     * @return true si l'enregistrement est réussi.
-     */
     public boolean registerUser(User user) throws SQLException {
         String sql = "INSERT INTO public.app_user (username, password_hash, email) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
@@ -67,9 +59,7 @@ public class UserDAO {
         }
     }
 
-    /**
-     * Vérifie si un nom d'utilisateur existe déjà.
-     */
+   
     public boolean isUsernameTaken(String username) throws SQLException {
         String sql = "SELECT COUNT(*) FROM public.app_user WHERE username = ?";
         try (Connection conn = getConnection();
@@ -85,9 +75,7 @@ public class UserDAO {
         return false;
     }
     
-    /**
-     * Vérifie si un email existe déjà.
-     */
+    
     public boolean isEmailTaken(String email) throws SQLException {
         String sql = "SELECT COUNT(*) FROM public.app_user WHERE email = ?";
         try (Connection conn = getConnection();

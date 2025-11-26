@@ -7,9 +7,9 @@ package com.view;
 
 /**
  *
- * @author USER
- */
-
+ * @author 25873
+ * 
+*/
 
 
 import com.controller.CourseController;
@@ -24,19 +24,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class CourseView extends JFrame {
     
-    // Constantes de couleur pour le thème Violet-Blanc
+  
     private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    
     private CourseController controller;
     private JTable courseTable;
     private DefaultTableModel tableModel;
     
-    // Champs de formulaire
+  
     private JTextField txtCourseId, txtProgramId, txtCourseName, txtCredits, txtSemester;
     
-    // Boutons d'action
+  
     private JButton btnAdd, btnUpdate, btnDelete, btnClear;
     private JButton btnBackToStudents;
 
@@ -58,7 +57,7 @@ public class CourseView extends JFrame {
 
     private void initComponents() {
         
-        // PANNEAU WEST (Formulaire et Actions)
+      
         JPanel formPanel = new JPanel(new BorderLayout(5, 5));
         formPanel.setBorder(BorderFactory.createTitledBorder("Course Details"));
         formPanel.setBackground(BACKGROUND_COLOR);
@@ -81,7 +80,7 @@ public class CourseView extends JFrame {
         
         formPanel.add(inputGrid, BorderLayout.NORTH);
         
-        // PANNEAU DES BOUTONS (Actions CRUD)
+     
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         buttonPanel.setBackground(BACKGROUND_COLOR);
         
@@ -104,7 +103,7 @@ public class CourseView extends JFrame {
         
         add(formPanel, BorderLayout.WEST);
 
-        // PANNEAU CENTER (JTable)
+        
         String[] columnNames = {"ID", "Program ID", "Name", "Credits", "Semester"};
         tableModel = new DefaultTableModel(columnNames, 0);
         courseTable = new JTable(tableModel);
@@ -114,7 +113,7 @@ public class CourseView extends JFrame {
         
         add(scrollPane, BorderLayout.CENTER);
         
-        // PANNEAU NORD (Bouton de retour)
+    
         JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         navPanel.setBackground(PRIMARY_COLOR);
         
@@ -126,19 +125,19 @@ public class CourseView extends JFrame {
     }
     
     private void addEventListeners() {
-        // --- Listeners CRUD ---
+ 
         btnAdd.addActionListener(e -> addCourse());
         btnUpdate.addActionListener(e -> updateCourse());
         btnDelete.addActionListener(e -> deleteCourse());
         btnClear.addActionListener(e -> clearForm());
 
-        // --- Listener de Navigation ---
+
         btnBackToStudents.addActionListener(e -> {
             new StudentView().setVisible(true);
             this.dispose();
         });
 
-        // --- Listener de Sélection de Table ---
+
         courseTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && courseTable.getSelectedRow() != -1) {
                 fillFormFromTable();
@@ -146,7 +145,7 @@ public class CourseView extends JFrame {
         });
     }
 
-    // --- LOGIQUE CRUD ---
+  
     private void loadCoursesToTable() {
         try {
             List<Course> courses = controller.getAllCourses();
@@ -247,7 +246,7 @@ public class CourseView extends JFrame {
         }
     }
     
-    // --- UTILS ---
+   
     private void fillFormFromTable() {
         int selectedRow = courseTable.getSelectedRow();
         if (selectedRow >= 0) {
@@ -255,8 +254,7 @@ public class CourseView extends JFrame {
             txtProgramId.setText(tableModel.getValueAt(selectedRow, 1).toString());
             txtCourseName.setText(tableModel.getValueAt(selectedRow, 2).toString());
             txtCredits.setText(tableModel.getValueAt(selectedRow, 3).toString());
-            // Le semestre peut être NULL
-            txtSemester.setText(tableModel.getValueAt(selectedRow, 4) != null ? tableModel.getValueAt(selectedRow, 4).toString() : "");
+             txtSemester.setText(tableModel.getValueAt(selectedRow, 4) != null ? tableModel.getValueAt(selectedRow, 4).toString() : "");
         }
     }
     

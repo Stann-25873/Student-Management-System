@@ -7,7 +7,7 @@ package com.view;
 
 /**
  *
- * @author USER
+ *@author 25873
  */
 
 
@@ -24,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class ProgramView extends JFrame {
     
-    // Constantes de couleur pour le thème Violet-Blanc
-    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
+    
+    private static final Color PRIMARY_COLOR = new Color(102, 0, 153);
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     
@@ -33,7 +33,7 @@ public class ProgramView extends JFrame {
     private JTable programTable;
     private DefaultTableModel tableModel;
     
-    // Champs de formulaire
+    
     private JTextField txtProgramId, txtDeptId, txtProgramName, txtDuration;
     private JCheckBox chkIsActive;
     

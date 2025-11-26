@@ -7,23 +7,23 @@ package com.dao;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.model.Department;
-import com.util.DBUtil; // CHANGEMENT ICI: Utilisation de DBUtil
+import com.util.DBUtil; 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDAO {
 
-    // Utilisation de DBUtil pour obtenir la connexion
+    
     private Connection getConnection() throws SQLException {
         return DBUtil.getConnection(); 
     }
 
-    // --- CREATE ---
+ 
     public boolean addDepartment(Department dept) throws SQLException {
         String sql = "INSERT INTO public.department (department_name, head_of_dept, building_location, contact_phone) VALUES (?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -38,7 +38,7 @@ public class DepartmentDAO {
         }
     }
 
-    // --- READ ALL ---
+  
     public List<Department> getAllDepartments() throws SQLException {
         List<Department> departments = new ArrayList<>();
         String sql = "SELECT * FROM public.department ORDER BY department_id";
@@ -60,7 +60,7 @@ public class DepartmentDAO {
         return departments;
     }
 
-    // --- UPDATE ---
+  
     public boolean updateDepartment(Department dept) throws SQLException {
         String sql = "UPDATE public.department SET department_name = ?, head_of_dept = ?, building_location = ?, contact_phone = ? WHERE department_id = ?";
         try (Connection conn = getConnection();
@@ -76,7 +76,7 @@ public class DepartmentDAO {
         }
     }
 
-    // --- DELETE ---
+ 
     public boolean deleteDepartment(int departmentId) throws SQLException {
         String sql = "DELETE FROM public.department WHERE department_id = ?";
         try (Connection conn = getConnection();

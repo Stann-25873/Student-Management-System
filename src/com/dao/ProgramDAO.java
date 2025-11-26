@@ -7,13 +7,13 @@ package com.dao;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 
 
 import com.model.Program;
-import com.util.DBUtil; // Utilisation de DBUtil
+import com.util.DBUtil; 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ProgramDAO {
         return DBUtil.getConnection(); 
     }
 
-    // --- CREATE ---
+   
     public boolean addProgram(Program program) throws SQLException {
         // La colonne is_active a une valeur par défaut 'true', mais nous l'incluons pour être explicite
         String sql = "INSERT INTO public.program (department_id, program_name, duration_years, is_active) VALUES (?, ?, ?, ?)";
@@ -40,7 +40,7 @@ public class ProgramDAO {
         }
     }
 
-    // --- READ ALL ---
+   
     public List<Program> getAllPrograms() throws SQLException {
         List<Program> programs = new ArrayList<>();
         String sql = "SELECT * FROM public.program ORDER BY program_id";
@@ -62,7 +62,7 @@ public class ProgramDAO {
         return programs;
     }
 
-    // --- UPDATE ---
+ 
     public boolean updateProgram(Program program) throws SQLException {
         String sql = "UPDATE public.program SET department_id = ?, program_name = ?, duration_years = ?, is_active = ? WHERE program_id = ?";
         try (Connection conn = getConnection();
@@ -78,7 +78,7 @@ public class ProgramDAO {
         }
     }
 
-    // --- DELETE ---
+   
     public boolean deleteProgram(int programId) throws SQLException {
         String sql = "DELETE FROM public.program WHERE program_id = ?";
         try (Connection conn = getConnection();

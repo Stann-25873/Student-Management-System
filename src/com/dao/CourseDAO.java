@@ -7,11 +7,11 @@ package com.dao;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 import com.model.Course;
-import com.util.DBUtil; // Utilisation de DBUtil
+import com.util.DBUtil; 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class CourseDAO {
         return DBUtil.getConnection(); 
     }
 
-    // --- CREATE ---
+    
     public boolean addCourse(Course course) throws SQLException {
         String sql = "INSERT INTO public.course (program_id, course_name, credits, semester_offered) VALUES (?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -37,7 +37,7 @@ public class CourseDAO {
         }
     }
 
-    // --- READ ALL ---
+   
     public List<Course> getAllCourses() throws SQLException {
         List<Course> courses = new ArrayList<>();
         String sql = "SELECT * FROM public.course ORDER BY course_id";
@@ -59,7 +59,7 @@ public class CourseDAO {
         return courses;
     }
 
-    // --- UPDATE ---
+  
     public boolean updateCourse(Course course) throws SQLException {
         String sql = "UPDATE public.course SET program_id = ?, course_name = ?, credits = ?, semester_offered = ? WHERE course_id = ?";
         try (Connection conn = getConnection();
@@ -75,7 +75,7 @@ public class CourseDAO {
         }
     }
 
-    // --- DELETE ---
+   
     public boolean deleteCourse(int courseId) throws SQLException {
         String sql = "DELETE FROM public.course WHERE course_id = ?";
         try (Connection conn = getConnection();

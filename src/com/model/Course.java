@@ -7,7 +7,7 @@ package com.model;
 
 /**
  *
- * @author USER
+ * @author 25873
  */
 
 public class Course {
@@ -17,7 +17,7 @@ public class Course {
     private int credits;
     private String semesterOffered;
 
-    // CONSTRUCTOR for CREATE operation (ID is auto-generated)
+   
     public Course(int programId, String courseName, int credits, String semesterOffered) {
         this.programId = programId;
         this.courseName = courseName;
@@ -25,7 +25,7 @@ public class Course {
         this.semesterOffered = semesterOffered;
     }
 
-    // CONSTRUCTOR for READ/UPDATE/DELETE operations (with ID)
+
     public Course(int courseId, int programId, String courseName, int credits, String semesterOffered) {
         this.courseId = courseId;
         this.programId = programId;
@@ -34,7 +34,7 @@ public class Course {
         this.semesterOffered = semesterOffered;
     }
 
-    // --- GETTERS AND SETTERS ---
+    
     public int getCourseId() {
         return courseId;
     }
