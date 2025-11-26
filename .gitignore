@@ -1,0 +1,45 @@
+# NetBeans / Java build artifacts
+/build/
+/dist/
+/out/
+target/
+
+# NetBeans project files (ignore private settings)
+/nbproject/private/
+
+# Compiled class files
+*.class
+
+# Packaging
+*.jar
+*.war
+*.ear
+
+# IDE files
+.classpath
+.project
+.settings/
+/.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.db
+*.sqlite
+
+# Gradle
+/.gradle/
+
+# Maven
+/target/
+
+# Temporary files
+*~
+*.tmp
