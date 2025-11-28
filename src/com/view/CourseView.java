@@ -12,9 +12,11 @@ package com.view;
 */
 
 
+
+
 import com.controller.CourseController;
 import com.model.Course;
-import com.view.StudentView; 
+import com.view.StudentView;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,109 +25,126 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class CourseView extends JFrame {
-    
-  
-    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); // Violet Profond
-    private static final Color TEXT_COLOR = Color.WHITE;
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
+
+
+    private static final Color PRIMARY_COLOR = new Color(51, 136, 128); // Turquoise/Vert foncé
+    private static final Color CARD_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_APP_COLOR = new Color(240, 240, 240);
+    private static final Color TEXT_COLOR = Color.DARK_GRAY;
     private CourseController controller;
     private JTable courseTable;
     private DefaultTableModel tableModel;
-    
-  
     private JTextField txtCourseId, txtProgramId, txtCourseName, txtCredits, txtSemester;
-    
-  
     private JButton btnAdd, btnUpdate, btnDelete, btnClear;
     private JButton btnBackToStudents;
-
     public CourseView() {
         controller = new CourseController();
 
-        setTitle("Course Management System");
+        setTitle("Course Management System (Page 3)");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 600);
+        setSize(1000, 600);
         setLayout(new BorderLayout(10, 10));
-        getContentPane().setBackground(BACKGROUND_COLOR);
+        getContentPane().setBackground(BACKGROUND_APP_COLOR);
 
         initComponents();
         loadCoursesToTable();
         addEventListeners();
-        
+
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
-        
-      
+
+        // PANNEAU WEST (Formulaire)
         JPanel formPanel = new JPanel(new BorderLayout(5, 5));
-        formPanel.setBorder(BorderFactory.createTitledBorder("Course Details"));
-        formPanel.setBackground(BACKGROUND_COLOR);
-        
+        formPanel.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(PRIMARY_COLOR.darker(), 1),
+            "Course Details",
+            0, 2,
+            new Font("Arial", Font.BOLD, 14),
+            PRIMARY_COLOR.darker()
+        ));
+        formPanel.setBackground(CARD_COLOR);
+        formPanel.setPreferredSize(new Dimension(350, 0));
+
         JPanel inputGrid = new JPanel(new GridLayout(5, 2, 10, 10));
-        inputGrid.setBackground(BACKGROUND_COLOR);
-        
-        txtCourseId = new JTextField(20);
+        inputGrid.setBackground(CARD_COLOR);
+        inputGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
+        txtCourseId = createStyledTextField("");
         txtCourseId.setEditable(false);
-        txtProgramId = new JTextField(20);
-        txtCourseName = new JTextField(20);
-        txtCredits = new JTextField(20);
-        txtSemester = new JTextField(20);
+        txtProgramId = createStyledTextField("e.g., 1");
+        txtCourseName = createStyledTextField("e.g., Data Structures");
+        txtCredits = createStyledTextField("e.g., 3");
+        txtSemester = createStyledTextField("e.g., Fall 2024");
 
         inputGrid.add(new JLabel("Course ID:")); inputGrid.add(txtCourseId);
         inputGrid.add(new JLabel("Program ID (FK):")); inputGrid.add(txtProgramId);
         inputGrid.add(new JLabel("Course Name:")); inputGrid.add(txtCourseName);
         inputGrid.add(new JLabel("Credits (1-10):")); inputGrid.add(txtCredits);
         inputGrid.add(new JLabel("Semester Offered:")); inputGrid.add(txtSemester);
-        
+
         formPanel.add(inputGrid, BorderLayout.NORTH);
-        
-     
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
-        buttonPanel.setBackground(BACKGROUND_COLOR);
-        
+
+
+        // PANNEAU DES BOUTONS (Actions CRUD)
+        // CHANGEMENT ICI: Espacement réduit (5) pour aligner les 4 boutons.
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 10));
+        buttonPanel.setBackground(CARD_COLOR);
+
         btnAdd = new JButton("ADD");
         btnUpdate = new JButton("UPDATE");
         btnDelete = new JButton("DELETE");
         btnClear = new JButton("CLEAR FORM");
-        
-        styleButton(btnAdd);
-        styleButton(btnUpdate);
-        styleButton(btnDelete);
-        styleButton(btnClear);
-        
+
+        // Note: styleCRUDButton a été modifié pour une largeur de 80px
+        styleCRUDButton(btnAdd);
+        styleCRUDButton(btnUpdate);
+        styleCRUDButton(btnDelete);
+        styleCRUDButton(btnClear);
+
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnUpdate);
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnClear);
-        
-        formPanel.add(buttonPanel, BorderLayout.CENTER);
-        
+
+        formPanel.add(buttonPanel, BorderLayout.SOUTH); 
+
         add(formPanel, BorderLayout.WEST);
 
-        
+
+        // PANNEAU CENTER (JTable)
         String[] columnNames = {"ID", "Program ID", "Name", "Credits", "Semester"};
         tableModel = new DefaultTableModel(columnNames, 0);
         courseTable = new JTable(tableModel);
-        
+        styleTable(courseTable); 
+
         JScrollPane scrollPane = new JScrollPane(courseTable);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Registered Courses"));
-        
+        scrollPane.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(PRIMARY_COLOR.darker(), 1),
+            "Registered Courses",
+            0, 2,
+            new Font("Arial", Font.BOLD, 14),
+            PRIMARY_COLOR.darker()
+        ));
+
         add(scrollPane, BorderLayout.CENTER);
-        
-    
+
+
+        // PANNEAU NORTH (Navigation)
         JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         navPanel.setBackground(PRIMARY_COLOR);
-        
+
         btnBackToStudents = new JButton("<- Back to Student Management (Page 1)");
-        styleButton(btnBackToStudents);
-        
+        styleNavButton(btnBackToStudents);
+
         navPanel.add(btnBackToStudents);
         add(navPanel, BorderLayout.NORTH);
     }
-    
+
     private void addEventListeners() {
- 
+
         btnAdd.addActionListener(e -> addCourse());
         btnUpdate.addActionListener(e -> updateCourse());
         btnDelete.addActionListener(e -> deleteCourse());
@@ -145,12 +164,63 @@ public class CourseView extends JFrame {
         });
     }
 
-  
+    private JTextField createStyledTextField(String placeholder) {
+        JTextField field = new JTextField();
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(CARD_COLOR, 1),
+            BorderFactory.createEmptyBorder(8, 8, 8, 8)
+        ));
+        field.setBackground(new Color(240, 240, 240));
+        field.setFont(new Font("Arial", Font.PLAIN, 14));
+        field.setForeground(TEXT_COLOR);
+        if (!placeholder.isEmpty()) {
+            field.setText(placeholder);
+            field.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    if (field.getText().equals(placeholder)) field.setText("");
+                }
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    if (field.getText().isEmpty()) field.setText(placeholder);
+                }
+            });
+        }
+        return field;
+    }
+
+    private void styleCRUDButton(JButton button) {
+        button.setBackground(PRIMARY_COLOR);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        // CHANGEMENT CLÉ: Largeur ajustée à 80 pour aligner les 4 boutons.
+        button.setPreferredSize(new Dimension(80, 30));
+    }
+    
+    private void styleNavButton(JButton button) {
+        // Pour les boutons de navigation dans le panneau NORTH (meilleure visibilité)
+        button.setBackground(Color.WHITE);
+        button.setForeground(PRIMARY_COLOR.darker());
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(280, 30));
+    }
+
+    private void styleTable(JTable table) {
+        table.getTableHeader().setBackground(PRIMARY_COLOR);
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setSelectionBackground(PRIMARY_COLOR.brighter());
+        table.setSelectionForeground(Color.WHITE);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+    }
+
     private void loadCoursesToTable() {
         try {
             List<Course> courses = controller.getAllCourses();
-            tableModel.setRowCount(0); 
-            
+            tableModel.setRowCount(0);
+
             for (Course course : courses) {
                 Object[] rowData = {
                     course.getCourseId(),
@@ -162,21 +232,21 @@ public class CourseView extends JFrame {
                 tableModel.addRow(rowData);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Database Error loading courses: " + ex.getMessage(), 
+            JOptionPane.showMessageDialog(this,
+                "Database Error loading courses: " + ex.getMessage(),
                 "DB Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void addCourse() {
         try {
             int programId = Integer.parseInt(txtProgramId.getText().trim());
             int credits = Integer.parseInt(txtCredits.getText().trim());
-            
+
             Course newCourse = new Course(
-                programId, 
-                txtCourseName.getText().trim(), 
-                credits, 
+                programId,
+                txtCourseName.getText().trim(),
+                credits,
                 txtSemester.getText().trim()
             );
 
@@ -193,24 +263,24 @@ public class CourseView extends JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void updateCourse() {
         try {
             int courseId = Integer.parseInt(txtCourseId.getText().trim());
             int programId = Integer.parseInt(txtProgramId.getText().trim());
             int credits = Integer.parseInt(txtCredits.getText().trim());
-            
+
             Course updatedCourse = new Course(
                 courseId,
-                programId, 
-                txtCourseName.getText().trim(), 
-                credits, 
+                programId,
+                txtCourseName.getText().trim(),
+                credits,
                 txtSemester.getText().trim()
             );
-            
+
             if (controller.updateCourse(updatedCourse)) {
                 JOptionPane.showMessageDialog(this, "Course updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                loadCoursesToTable(); 
+                loadCoursesToTable();
                 clearForm();
             } else {
                 JOptionPane.showMessageDialog(this, "Update failed. ID not found or data unchanged.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -221,19 +291,19 @@ public class CourseView extends JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void deleteCourse() {
         try {
             int courseIdToDelete = Integer.parseInt(txtCourseId.getText().trim());
-            
-            int confirmation = JOptionPane.showConfirmDialog(this, 
-                "Are you sure you want to delete course ID: " + courseIdToDelete + "?", 
+
+            int confirmation = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete course ID: " + courseIdToDelete + "?",
                 "Confirm Deletion", JOptionPane.YES_NO_OPTION);
-            
+
             if (confirmation == JOptionPane.YES_OPTION) {
                 if (controller.deleteCourse(courseIdToDelete)) {
                     JOptionPane.showMessageDialog(this, "Course deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadCoursesToTable(); 
+                    loadCoursesToTable();
                     clearForm();
                 } else {
                     JOptionPane.showMessageDialog(this, "Deletion failed. ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -242,11 +312,10 @@ public class CourseView extends JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Please select a course from the table.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException | SQLException ex) {
-             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+              JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-   
+
     private void fillFormFromTable() {
         int selectedRow = courseTable.getSelectedRow();
         if (selectedRow >= 0) {
@@ -257,23 +326,19 @@ public class CourseView extends JFrame {
              txtSemester.setText(tableModel.getValueAt(selectedRow, 4) != null ? tableModel.getValueAt(selectedRow, 4).toString() : "");
         }
     }
-    
+
     private void clearForm() {
         txtCourseId.setText("");
-        txtProgramId.setText("");
-        txtCourseName.setText("");
-        txtCredits.setText("");
-        txtSemester.setText("");
+        txtProgramId.setText("e.g., 1");
+        txtCourseName.setText("e.g., Data Structures");
+        txtCredits.setText("e.g., 3");
+        txtSemester.setText("e.g., Fall 2024");
         courseTable.clearSelection();
     }
     
-    private void styleButton(JButton button) {
-        button.setBackground(PRIMARY_COLOR);
-        button.setForeground(TEXT_COLOR); 
-        button.setFocusPainted(false);
-        button.setFont(button.getFont().deriveFont(Font.BOLD, 12f));
-    }
 }
+
+
 
    /* @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

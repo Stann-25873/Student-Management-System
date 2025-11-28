@@ -10,12 +10,16 @@ package com.view;
  * @author 25873
  */
 
+
+
+
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import com.controller.AuthController;
 import com.model.User;
-import com.view.StudentView; 
+import com.view.StudentView;
 import java.awt.*;
 import java.util.Optional;
 import java.sql.SQLException;
@@ -23,15 +27,15 @@ import javax.swing.*;
 
 public class LoginRegisterView extends JFrame {
 
-   
-    private static final Color PRIMARY_COLOR = new Color(102, 0, 153); 
-    private static final Color ACCENT_COLOR = new Color(153, 50, 204); 
+    private static final Color BACKGROUND_APP_COLOR = new Color(51, 136, 128);
+    private static final Color CARD_COLOR = Color.WHITE;
+    private static final Color PRIMARY_COLOR = new Color(38, 102, 98);
+    private static final Color ACCENT_COLOR = new Color(51, 136, 128);
     private static final Color TEXT_COLOR = Color.DARK_GRAY;
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final String CARD_LOGIN = "LoginCard";
     private static final String CARD_REGISTER = "RegisterCard";
     private AuthController controller;
-    private JPanel cardsPanel; 
+    private JPanel cardsPanel;
     private CardLayout cardLayout;
     private JTextField txtLoginUsername;
     private JPasswordField txtLoginPassword;
@@ -45,21 +49,26 @@ public class LoginRegisterView extends JFrame {
         setTitle("Authentication System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 600);
-        
- 
+
+
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
-        cardsPanel.setBackground(BACKGROUND_COLOR);
+        cardsPanel.setBackground(CARD_COLOR);
 
         initComponents();
         addEventListeners();
-        
-        add(cardsPanel);
+
+        setLayout(new BorderLayout());
+        JPanel container = new JPanel(new GridBagLayout());
+        container.setBackground(BACKGROUND_APP_COLOR);
+        container.add(cardsPanel, new GridBagConstraints());
+        add(container, BorderLayout.CENTER);
+
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
-       
+
         JPanel loginPanel = createLoginPanel();
         cardsPanel.add(loginPanel, CARD_LOGIN);
 
@@ -68,92 +77,88 @@ public class LoginRegisterView extends JFrame {
         cardsPanel.add(registerPanel, CARD_REGISTER);
         cardLayout.show(cardsPanel, CARD_LOGIN);
     }
-    
-    // =================================================================
-    // PANNEAU DE CONNEXION
-    // =================================================================
 
-  
 private GridBagConstraints createGbc(int gridx, int gridy, int ipadx, int ipady, int anchor) {
+    
+    
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = gridx;
     gbc.gridy = gridy;
     gbc.ipadx = ipadx;
     gbc.ipady = ipady;
-    gbc.anchor = anchor; 
-    gbc.insets = new Insets(10, 0, 10, 0); 
+    gbc.anchor = anchor;
+    gbc.insets = new Insets(10, 0, 10, 0);
     return gbc;
+    
 }
-    
-    
 
     private JPanel createLoginPanel() {
     JPanel panel = new JPanel(new BorderLayout(20, 20));
-    panel.setBackground(BACKGROUND_COLOR);
+    panel.setBackground(CARD_COLOR);
     panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-    JLabel title = new JLabel("Login", SwingConstants.CENTER);
-    title.setFont(new Font("Arial", Font.BOLD, 32));
+    JLabel title = new JLabel("LOGIN", SwingConstants.CENTER);
+    title.setFont(new Font("Arial", Font.BOLD, 24));
     title.setForeground(PRIMARY_COLOR);
-    JPanel form = new JPanel(new GridBagLayout()); 
-    form.setBackground(BACKGROUND_COLOR);
-    
+    JPanel form = new JPanel(new GridBagLayout());
+    form.setBackground(CARD_COLOR);
+    form.setPreferredSize(new Dimension(350, 450));
+    form.setMaximumSize(new Dimension(350, 450));
 
-    Dimension fieldSize = new Dimension(300, 45); 
 
-    txtLoginUsername = createStyledTextField("User Name");
+    Dimension fieldSize = new Dimension(280, 40);
+
+    txtLoginUsername = createStyledTextField("Username");
     txtLoginUsername.setPreferredSize(fieldSize);
     txtLoginPassword = createStyledPasswordField("Password");
     txtLoginPassword.setPreferredSize(fieldSize);
-    
+
     btnLogin = createStyledButton("Login", ACCENT_COLOR);
-    
-    JButton btnSwitchToRegister = new JButton("Register Now");
+
+    JButton btnSwitchToRegister = new JButton("Not registered? Create an account");
     styleLinkButton(btnSwitchToRegister);
     btnSwitchToRegister.addActionListener(e -> cardLayout.show(cardsPanel, CARD_REGISTER));
     GridBagConstraints gbc;
 
-   
+
     gbc = createGbc(0, 0, 0, 0, GridBagConstraints.CENTER);
+    form.add(title, gbc);
+
+
+    gbc = createGbc(0, 1, 0, 0, GridBagConstraints.CENTER);
     form.add(txtLoginUsername, gbc);
 
-    
-    gbc = createGbc(0, 1, 0, 0, GridBagConstraints.CENTER);
+
+    gbc = createGbc(0, 2, 0, 0, GridBagConstraints.CENTER);
     form.add(txtLoginPassword, gbc);
 
-    
-    gbc = createGbc(0, 2, 0, 0, GridBagConstraints.CENTER);
-    gbc.insets = new Insets(20, 0, 20, 0);
-    form.add(Box.createVerticalStrut(1), gbc); 
 
-   
     gbc = createGbc(0, 3, 0, 0, GridBagConstraints.CENTER);
+    gbc.insets = new Insets(25, 0, 25, 0);
     form.add(btnLogin, gbc);
 
-   
-    gbc = createGbc(0, 4, 0, 0, GridBagConstraints.CENTER);
-    form.add(btnSwitchToRegister, gbc);
-    
-    panel.add(title, BorderLayout.NORTH);
-    panel.add(form, BorderLayout.CENTER); // Centrer le panneau de formulaire
 
+    gbc = createGbc(0, 4, 0, 0, GridBagConstraints.CENTER);
+    gbc.insets = new Insets(5, 0, 5, 0);
+    form.add(btnSwitchToRegister, gbc);
+
+    panel.add(form, BorderLayout.CENTER);
     return panel;
 }
 
-    // =================================================================
-    // PANNEAU D'ENREGISTREMENT
-    // =================================================================
-  
 private JPanel createRegisterPanel() {
     JPanel panel = new JPanel(new BorderLayout(20, 20));
-    panel.setBackground(BACKGROUND_COLOR);
+    panel.setBackground(CARD_COLOR);
     panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
     JLabel title = new JLabel("Register", SwingConstants.CENTER);
-    title.setFont(new Font("Arial", Font.BOLD, 32));
+    title.setFont(new Font("Arial", Font.BOLD, 24));
     title.setForeground(PRIMARY_COLOR);
     JPanel form = new JPanel(new GridBagLayout());
-    form.setBackground(BACKGROUND_COLOR);
-    Dimension fieldSize = new Dimension(300, 45);
+    form.setBackground(CARD_COLOR);
+    form.setPreferredSize(new Dimension(350, 500));
+    form.setMaximumSize(new Dimension(350, 500));
+
+    Dimension fieldSize = new Dimension(280, 40);
 
     txtRegisterUsername = createStyledTextField("User Name");
     txtRegisterUsername.setPreferredSize(fieldSize);
@@ -163,54 +168,44 @@ private JPanel createRegisterPanel() {
     txtConfirmPassword.setPreferredSize(fieldSize);
     txtRegisterEmail = createStyledTextField("Email");
     txtRegisterEmail.setPreferredSize(fieldSize);
-    
+
     btnRegister = createStyledButton("Register", ACCENT_COLOR);
 
     JButton btnBackToLogin = new JButton("Back to Login");
     styleLinkButton(btnBackToLogin);
     btnBackToLogin.addActionListener(e -> cardLayout.show(cardsPanel, CARD_LOGIN));
-    
- 
+
+
     GridBagConstraints gbc;
 
- 
     gbc = createGbc(0, 0, 0, 0, GridBagConstraints.CENTER);
-    form.add(txtRegisterUsername, gbc);
-
+    form.add(title, gbc);
 
     gbc = createGbc(0, 1, 0, 0, GridBagConstraints.CENTER);
+    form.add(txtRegisterUsername, gbc);
+
+    gbc = createGbc(0, 2, 0, 0, GridBagConstraints.CENTER);
     form.add(txtRegisterPassword, gbc);
 
-  
-    gbc = createGbc(0, 2, 0, 0, GridBagConstraints.CENTER);
+    gbc = createGbc(0, 3, 0, 0, GridBagConstraints.CENTER);
     form.add(txtConfirmPassword, gbc);
 
-  
-    gbc = createGbc(0, 3, 0, 0, GridBagConstraints.CENTER);
+    gbc = createGbc(0, 4, 0, 0, GridBagConstraints.CENTER);
     form.add(txtRegisterEmail, gbc);
 
 
-    gbc = createGbc(0, 4, 0, 0, GridBagConstraints.CENTER);
-    gbc.insets = new Insets(20, 0, 20, 0);
-    form.add(Box.createVerticalStrut(1), gbc);
-
-
     gbc = createGbc(0, 5, 0, 0, GridBagConstraints.CENTER);
+    gbc.insets = new Insets(25, 0, 25, 0);
     form.add(btnRegister, gbc);
 
-   
+
     gbc = createGbc(0, 6, 0, 0, GridBagConstraints.CENTER);
+    gbc.insets = new Insets(5, 0, 5, 0);
     form.add(btnBackToLogin, gbc);
 
-    panel.add(title, BorderLayout.NORTH);
-    panel.add(form, BorderLayout.CENTER); 
-    
+    panel.add(form, BorderLayout.CENTER);
     return panel;
 }
-
-    // =================================================================
-    // GESTION DES ÉVÉNEMENTS
-    // =================================================================
 
     private void addEventListeners() {
         btnLogin.addActionListener(e -> attemptLogin());
@@ -224,12 +219,12 @@ private JPanel createRegisterPanel() {
         try {
             Optional<User> user = controller.authenticate(username, password);
             if (user.isPresent()) {
-                JOptionPane.showMessageDialog(this, "Login successful! Welcome, " + user.get().getUsername(), 
+                JOptionPane.showMessageDialog(this, "Login successful! Welcome, " + user.get().getUsername(),
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-                
-               
+
+
                 new StudentView().setVisible(true);
-                this.dispose(); 
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -239,25 +234,25 @@ private JPanel createRegisterPanel() {
             JOptionPane.showMessageDialog(this, "Database Error during login: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void attemptRegister() {
         String username = txtRegisterUsername.getText();
         String email = txtRegisterEmail.getText();
         String password = new String(txtRegisterPassword.getPassword());
         String confirmPassword = new String(txtConfirmPassword.getPassword());
-        
+
         try {
             if (controller.registerUser(username, password, confirmPassword, email)) {
-                JOptionPane.showMessageDialog(this, "Registration successful! You can now log in.", 
+                JOptionPane.showMessageDialog(this, "Registration successful! You can now log in.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 cardLayout.show(cardsPanel, CARD_LOGIN);
                 clearRegisterFields();
             }
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Registration Error", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-           
+
             JOptionPane.showMessageDialog(this, "Database Error during registration: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -269,19 +264,17 @@ private JPanel createRegisterPanel() {
         txtConfirmPassword.setText("");
     }
 
-    // =================================================================
-    // UTILS DE STYLE
-    // =================================================================
-    
     private JTextField createStyledTextField(String placeholder) {
         JTextField field = new JTextField();
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR.darker(), 1),
+            // Rendre la bordure visible
+            BorderFactory.createLineBorder(PRIMARY_COLOR, 1), 
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
+        field.setBackground(new Color(240, 240, 240));
         field.setFont(new Font("Arial", Font.PLAIN, 16));
         field.setForeground(TEXT_COLOR);
-        field.setText(placeholder); 
+        field.setText(placeholder);
         field.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (field.getText().equals(placeholder)) field.setText("");
@@ -292,29 +285,31 @@ private JPanel createRegisterPanel() {
         });
         return field;
     }
-    
+
     private JPasswordField createStyledPasswordField(String placeholder) {
-         JPasswordField field = new JPasswordField();
-         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR.darker(), 1),
+        JPasswordField field = new JPasswordField();
+        field.setBorder(BorderFactory.createCompoundBorder(
+            // Rendre la bordure visible
+            BorderFactory.createLineBorder(PRIMARY_COLOR, 1), 
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
+        field.setBackground(new Color(240, 240, 240));
         field.setFont(new Font("Arial", Font.PLAIN, 16));
         field.setForeground(TEXT_COLOR);
-        field.setEchoChar((char) 0); 
+        field.setEchoChar((char) 0);
         field.setText(placeholder);
         field.addFocusListener(new java.awt.event.FocusAdapter() {
-            
+
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (new String(field.getPassword()).equals(placeholder)) {
                     field.setText("");
-                    field.setEchoChar('*'); 
+                    field.setEchoChar('*');
                 }
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (new String(field.getPassword()).isEmpty()) {
                     field.setEchoChar((char) 0);
-                    field.setText(placeholder); 
+                    field.setText(placeholder);
                 }
             }
         });
@@ -324,11 +319,11 @@ private JPanel createRegisterPanel() {
     private JButton createStyledButton(String text, Color bgColor) {
         JButton button = new JButton(text);
         button.setBackground(bgColor);
-        button.setForeground(BACKGROUND_COLOR);
+        button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setPreferredSize(new Dimension(200, 40));
+        button.setPreferredSize(new Dimension(280, 45));
         return button;
     }
 
@@ -340,7 +335,12 @@ private JPanel createRegisterPanel() {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }
-    
+
+
+
+
+
+
     
  /*   @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
